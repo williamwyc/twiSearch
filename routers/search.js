@@ -95,7 +95,7 @@ router.post('/',(req,res)=>{
         // if(req.body.hasMedia){
         //     req.body.query.media = {$ne:[]}
         // }
-        console.log(req.body.key)
+        console.log(req.body)
         itemSearch(req,res)
     //}
 });
