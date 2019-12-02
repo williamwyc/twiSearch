@@ -30,6 +30,7 @@ function likeItem(id,req,res){
             });
         }
         else if(result.length<=0){
+            console.log('No such tweet')
             res.status(400).json({
                 status:"error",
                 error:"No such tweet"
@@ -45,6 +46,7 @@ function likeItem(id,req,res){
                     });
                 }
                 else{
+                    console.log('Already liked')
                     res.status(400).json({
                         status:"error",
                         error:"Already liked"
@@ -52,6 +54,7 @@ function likeItem(id,req,res){
                 }
             }else{
                 if(result[0].property.likers.find(element => element == req.session.user) == null){
+                    console.log('Unliked before')
                     res.status(400).json({
                         status:"error",
                         error:"Unliked before"
