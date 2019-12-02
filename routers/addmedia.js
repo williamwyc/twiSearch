@@ -11,7 +11,6 @@ var uniqid = require("uniqid");
 
 router.post('/',upload.single('content'),function(req,res){
     req.session.user = req.body.current_user
-    console.log(req.session.user)
     if(req.session.user == null){
         res.status(400).json({
             'status':'error',
