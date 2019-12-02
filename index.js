@@ -40,47 +40,47 @@ app.use(cookieSession({
     keys: ['amiya'],
   }))
 
-var adduser = require("./routers/adduser.js")
-var login = require("./routers/login.js")
-var logout = require("./routers/logout.js")
-var verify = require("./routers/verify.js")
-var additem = require("./routers/additem.js")
-var item = require("./routers/item.js")
+// var adduser = require("./routers/adduser.js")
+// var login = require("./routers/login.js")
+// var logout = require("./routers/logout.js")
+// var verify = require("./routers/verify.js")
+// var additem = require("./routers/additem.js")
+// var item = require("./routers/item.js")
 var search = require("./routers/search.js")
-var user = require("./routers/user.js")
-var follow = require("./routers/follow.js")
-var addmedia = require("./routers/addmedia.js")
-var media = require("./routers/media.js")
+// var user = require("./routers/user.js")
+// var follow = require("./routers/follow.js")
+// var addmedia = require("./routers/addmedia.js")
+// var media = require("./routers/media.js")
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use("/adduser", adduser)
-app.use("/login", login)
-app.use("/logout", logout)
-app.use("/verify", verify)
-app.use("/additem", additem)
-app.use("/item", item)
+// app.use("/adduser", adduser)
+// app.use("/login", login)
+// app.use("/logout", logout)
+// app.use("/verify", verify)
+// app.use("/additem", additem)
+// app.use("/item", item)
 app.use("/search", search)
-app.use("/user",user)
-app.use("/follow",follow)
-app.use("/addmedia",addmedia)
-app.use("/media",media)
+// app.use("/user",user)
+// app.use("/follow",follow)
+// app.use("/addmedia",addmedia)
+// app.use("/media",media)
 app.use(express.static(__dirname));
 
 app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname));
 app.set('view engine', 'html');
 
-app.get('/', function (req, res) {
-  //res.sendFile( __dirname + "/html/index.html" );
-  var user = req.session.user
-  if(user == null){
-    res.redirect('/login');
-  }else{
-    res.render('index.ejs');
-  }
+// app.get('/', function (req, res) {
+//   //res.sendFile( __dirname + "/html/index.html" );
+//   var user = req.session.user
+//   if(user == null){
+//     res.redirect('/login');
+//   }else{
+//     res.render('index.ejs');
+//   }
   
-});
+// });
 
 MongoClient.connect('mongodb://130.245.168.51:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
   if (err){
