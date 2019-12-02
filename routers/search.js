@@ -7,6 +7,7 @@ var jsonParser = bodyParser.json()
 var MongoClient = require('mongodb').MongoClient;
 
 router.post('/',(req,res)=>{
+    console.log(req.session.user)
     if(req.session.user == null && (req.body.following == null || req.body.following == true)){
         console.log("Login First")
         res.status(400).json({
