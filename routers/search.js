@@ -7,7 +7,8 @@ var jsonParser = bodyParser.json()
 var MongoClient = require('mongodb').MongoClient;
 
 router.post('/',(req,res)=>{
-    if(req.body.following == null || req.body.following == true && req.session.user == null){
+    if(req.session.user == null && (req.body.following == null || req.body.following == true)){
+        console.log("Login First")
         res.status(400).json({
             status:"error",
             error:"Login First"
@@ -93,6 +94,7 @@ router.post('/',(req,res)=>{
         if(req.body.hasMedia){
             req.body.query.media = {$ne:[]}
         }
+        console.log(req.body.query)
         itemSearch(req,res)
     }
 });
