@@ -82,7 +82,7 @@ app.set('view engine', 'html');
   
 // });
 
-MongoClient.connect('mongodb://35.245.33.208:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
+MongoClient.connect('mongodb://130.245.168.231:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
   if (err){
     throw err;
   }

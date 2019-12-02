@@ -16,9 +16,6 @@ router.delete('/:id',(req,res)=>{
 });
 
 router.post('/:id/like',(req,res)=>{
-    if(req.body.like == null){
-        req.body.like = true
-    }
     req.session.user = req.body.current_user
     likeItem(req.params.id,req,res)
 });
@@ -102,7 +99,7 @@ function deleteItem(id,db,req,res){
     db.collection("items").find({'id': id, 'username': req.session.user}).toArray(function(err,result){
         if(err){
             console.log(err)
-            res.status(400).json({
+            res.status(500).json({
                 status:"error",
                 error:err
             });
@@ -117,7 +114,7 @@ function deleteItem(id,db,req,res){
             db.collection("medias").deleteMany({'id':{$in: result[0].media}},function(err,obj){
                 if(err){
                     console.log(err)
-                    res.status(400).json({
+                    res.status(500).json({
                         status:"error",
                         error:err
                     });
@@ -126,7 +123,7 @@ function deleteItem(id,db,req,res){
                     db.collection("items").remove({'id': id, 'username': req.session.user}, function(err, obj){
                         if(err){
                             console.log(err)
-                            res.status(400).json({
+                            res.status(500).json({
                                 status:"error",
                                 error:err
                             });
