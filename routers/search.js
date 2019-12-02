@@ -16,59 +16,60 @@ router.post('/',(req,res)=>{
         });
     }
     else{
-        req.body.default = true
+        req.body.key = ''
         //Default values
         req.body.current = Date.now()
         if(req.body.timestamp == null || req.body.timestamp == '' || req.body.timestamp <= 0){
             req.body.timestamp = req.body.current
         }
         else{
-            req.body.default = false
+            req.body.key+=String(req.body.timestamp)
         }
         if(req.body.limit == null || req.body.limit == '' ||parseInt(req.body.limit) <= 0){
             req.body.limit = 25
         }
         else if(parseInt(req.body.limit) >= 100){
             req.body.limit = 100
-            req.body.default = false
+            req.body.key += '100'
         }
         else{
-            req.body.default = false
+            req.body.key += req.body.limit
         }
         if(req.body.rank == null || req.body.rank != 'time'){
             req.body.rank = 'interest'
         }
         else{
             req.body.default = false
+            req.body.key += 't'
         }
         if(req.body.parent == null || req.body.parent == 'none'){
             req.body.parent = 'none'
         }
         else{
-            req.body.default = false
+            req.body.key += 'p'
         }
         if(req.body.replies == null || req.body.replies != false){
             req.body.replies = true
         }
         else{
-            req.body.default = false
+            req.body.key += 'r'
         }
         if(req.body.hasMedia == null || req.body.hasMedia == false){
             req.body.hasMedia = false
         }
         else{
-            req.body.default = false
+            req.body.key += 'm'
         }
 
         //query
         req.body.query = {'timestamp':{$lt:req.body.timestamp*1000}}
         if (req.body.q != null && req.body.q != "") {
             req.body.query.$text = {$search: req.body.q}
-            req.body.default = false
+            req.body.key += 'q'
         }
         if(req.body.username!=null&&req.body.username!=''){
             req.body.query.username = req.body.username
-            req.body.default = false
+            req.body.key += req.body.username
         }
         else if(req.body.following == true){
             req.app.locals.db.collection("follow").find({'follower':req.body.current_user}).toArray(function(err, result){
@@ -95,13 +96,13 @@ router.post('/',(req,res)=>{
         if(req.body.hasMedia){
             req.body.query.media = {$ne:[]}
         }
-        console.log(req.body.query)
+        console.log(req.body.key)
         itemSearch(req,res)
     }
 });
 
 function itemSearch(req,res){
-    req.app.locals.mem.get('default',function(err,data){
+    req.app.locals.mem.get(req.body.key,function(err,data){
         if(err){
             console.log(err)
             res.status(500).json({
@@ -131,7 +132,7 @@ function itemSearch(req,res){
                         })
                     }
                     if (req.body.default == true){
-                        req.app.locals.mem.set('default',result,100,function(err){
+                        req.app.locals.mem.set(req.body.key,result,50,function(err){
                             if(err){
                                 console.log(err)
                                 res.status(500).json({
