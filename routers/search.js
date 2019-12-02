@@ -7,8 +7,8 @@ var jsonParser = bodyParser.json()
 var MongoClient = require('mongodb').MongoClient;
 
 router.post('/',(req,res)=>{
-    console.log(req.session.user)
-    if(req.session.user == null && (req.body.following == null || req.body.following == true)){
+    console.log(req.body.current_user)
+    if(req.body.current_user == null && (req.body.following == null || req.body.following == true)){
         console.log("Login First")
         res.status(400).json({
             status:"error",
@@ -71,7 +71,7 @@ router.post('/',(req,res)=>{
             req.body.default = false
         }
         else if(req.body.following == true){
-            req.app.locals.db.collection("follow").find({'follower':req.session.user}).toArray(function(err, result){
+            req.app.locals.db.collection("follow").find({'follower':req.body.current_user}).toArray(function(err, result){
                 if(err){
                     console.log(err)
                     return res.status(500).json({
