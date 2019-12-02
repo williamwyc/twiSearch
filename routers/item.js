@@ -6,10 +6,12 @@ var urlencodedParser = bodyParser.urlencoded({extended: false})
 var jsonParser = bodyParser.json()
 
 router.get('/:id',(req,res)=>{
+    req.session.user = req.body.current_user
     getItem(req.params.id,req.app.locals.db,res);
 });
 
 router.delete('/:id',(req,res)=>{
+    req.session.user = req.body.current_user
     deleteItem(req.params.id,req.app.locals.db,req,res);
 });
 
@@ -17,6 +19,7 @@ router.post('/:id/like',(req,res)=>{
     if(req.body.like == null){
         req.body.like = true
     }
+    req.session.user = req.body.current_user
     likeItem(req.params.id,req,res)
 });
 
