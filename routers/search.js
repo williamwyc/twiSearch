@@ -15,7 +15,7 @@ router.post('/',(req,res)=>{
     //     });
     // }
     // else{
-        req.body.key = ''
+        req.body.key = 'd'
         //Default values
         req.body.current = Date.now()
         if(req.body.timestamp == null || req.body.timestamp == '' || req.body.timestamp <= 0){
