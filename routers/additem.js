@@ -7,6 +7,9 @@ var uniqid = require("uniqid");
 var cookieParser = require('cookie-parser');
 
 router.post('/',(req,res)=>{
+    console.log("Add item")
+    console.log(req.body)
+    console.log(req.cookie)
     if(req.cookies.a == null || req.cookies.a.user == null){
         res.status(400).json({
             status:"error",
