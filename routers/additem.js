@@ -6,26 +6,26 @@ var jsonParser = bodyParser.json()
 var uniqid = require("uniqid");
 
 router.post('/',(req,res)=>{
-    req.session.user = req.body.current_user
-    if(req.session.user == null){
-        res.status(400).json({
-            status:"error",
-            error:"Login Frist"
-        });
-    }
-    else if(req.body.content == null){
-        res.status(400).json({
-            status:"error",
-            error:"No content"
-        });
-    }
-    else if(req.body.parent == null && req.body.childType != null){
-        res.status(400).json({
-            status:"error",
-            error:"Undefined parent"
-        });
-    }
-    else{
+    // req.session.user = req.body.current_user
+    // if(req.session.user == null){
+    //     res.status(400).json({
+    //         status:"error",
+    //         error:"Login Frist"
+    //     });
+    // }
+    // else if(req.body.content == null){
+    //     res.status(400).json({
+    //         status:"error",
+    //         error:"No content"
+    //     });
+    // }
+    // else if(req.body.parent == null && req.body.childType != null){
+    //     res.status(400).json({
+    //         status:"error",
+    //         error:"Undefined parent"
+    //     });
+    // }
+    // else{
         if(req.body.media != null && req.body.media.length>0){
             req.app.locals.db.collection("medias").find({'id':{$in:req.body.media},'user':req.session.user,'used':false}).toArray(function(err,result){
                 if(err){
@@ -53,7 +53,7 @@ router.post('/',(req,res)=>{
             req.body.itemId = uniqid()
             addItem(req, res)
         }
-    }
+    //}
 });
 
 function addItem(req, res){
