@@ -11,6 +11,8 @@ var cookieSession = require('cookie-session');
 var Memcached = require('memcached');
 var memcached = new Memcached('localhost:11211')
 var cookieParser = require('cookie-parser');
+var cluster = require('cluster');
+
 app.use(cookieParser());
 app.locals.mem = memcached;
 
@@ -84,13 +86,21 @@ app.set('view engine', 'html');
   
 // });
 
-MongoClient.connect('mongodb://209.50.49.180:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
-  if (err){
-    throw err;
+cluster.schedulingPolicy = cluster.SCHED_RR;
+if(cluster.isMaster){
+  var cpuCount = require('os').cpus().length;
+  for (var i = 0; i < cpuCount; i += 1) {
+    cluster.fork();
   }
-  console.log('Mongodb Connected');
-  app.locals.db = client.db('twi');
-  app.listen(80, function(){
-    console.log("Listening...")
-  })
-});
+}else{
+  MongoClient.connect('mongodb://209.50.49.180:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
+    if (err){
+      throw err;
+    }
+    console.log('Mongodb Connected');
+    app.locals.db = client.db('twi');
+    app.listen(80, function(){
+      console.log("Listening...")
+    })
+  });
+}
