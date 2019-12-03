@@ -8,6 +8,7 @@ var multer = require('multer')
 var storage = multer.memoryStorage()
 var upload = multer({dest:'upload/',storage:storage})
 var uniqid = require("uniqid");
+var cookieParser = require('cookie-parser');
 
 router.post('/',upload.single('content'),function(req,res){
     if(req.cookies.a == null || req.cookies.a.user == null){
