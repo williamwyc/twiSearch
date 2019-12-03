@@ -5,23 +5,24 @@ var urlencodedParser = bodyParser.urlencoded({extended: false})
 var jsonParser = bodyParser.json()
 var uniqid = require("uniqid");
 var cookieParser = require('cookie-parser');
+var path = require('path');
 
 router.post('/',function(req,res){
     console.log("Add item")
     console.log(req.body)
     console.log(req.cookie)
-    // if(req.cookies.a == null || req.cookies.a.user == null){
-    //     res.status(400).json({
-    //         status:"error",
-    //         error:"Login Frist"
-    //     });
-    // }
-    if(req.body.current_user == null){
+    if(req.cookies.a == null || req.cookies.a.user == null){
         res.status(400).json({
             status:"error",
             error:"Login Frist"
         });
     }
+    // if(req.body.current_user == null){
+    //     res.status(400).json({
+    //         status:"error",
+    //         error:"Login Frist"
+    //     });
+    // }
     else if(req.body.content == null){
         res.status(400).json({
             status:"error",
