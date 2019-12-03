@@ -4,30 +4,30 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: false})
 var jsonParser = bodyParser.json()
 var uniqid = require("uniqid");
+var cookieParser = require('cookie-parser');
 
 router.post('/',(req,res)=>{
-    // req.session.user = req.body.current_user
-    // if(req.session.user == null){
-    //     res.status(400).json({
-    //         status:"error",
-    //         error:"Login Frist"
-    //     });
-    // }
-    // else if(req.body.content == null){
-    //     res.status(400).json({
-    //         status:"error",
-    //         error:"No content"
-    //     });
-    // }
-    // else if(req.body.parent == null && req.body.childType != null){
-    //     res.status(400).json({
-    //         status:"error",
-    //         error:"Undefined parent"
-    //     });
-    // }
-    // else{
+    if(req.cookies.a == null || req.cookies.a.user == null){
+        res.status(400).json({
+            status:"error",
+            error:"Login Frist"
+        });
+    }
+    else if(req.body.content == null){
+        res.status(400).json({
+            status:"error",
+            error:"No content"
+        });
+    }
+    else if(req.body.parent == null && req.body.childType != null){
+        res.status(400).json({
+            status:"error",
+            error:"Undefined parent"
+        });
+    }
+    else{
         if(req.body.media != null && req.body.media.length>0){
-            req.app.locals.db.collection("medias").find({'id':{$in:req.body.media},'user':req.session.user,'used':false}).toArray(function(err,result){
+            req.app.locals.db.collection("medias").find({'id':{$in:req.body.media},'user':req.cookies.a.user,'used':false}).toArray(function(err,result){
                 if(err){
                     res.status(500).json({
                         status:"error",
@@ -53,14 +53,14 @@ router.post('/',(req,res)=>{
             req.body.itemId = uniqid()
             addItem(req, res)
         }
-    //}
+    }
 });
 
 function addItem(req, res){
     req.app.locals.db.collection("items").insertOne({
         _id: req.body.itemId,
         id: req.body.itemId,
-        username: req.session.user,
+        username: req.cookies.a.user,
         property: {
             likes: 0,
             likers: []
