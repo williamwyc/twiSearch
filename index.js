@@ -10,6 +10,8 @@ var client = new cassandra.Client({contactPoints: ['130.245.168.194'], localData
 var cookieSession = require('cookie-session');
 var Memcached = require('memcached');
 var memcached = new Memcached('localhost:11211')
+var cookieParser = require('cookie-parser');
+app.use(cookieParser());
 app.locals.mem = memcached;
 
 client.connect(function(err, result) {

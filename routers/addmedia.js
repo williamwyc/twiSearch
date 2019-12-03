@@ -11,7 +11,7 @@ var uniqid = require("uniqid");
 var cookieParser = require('cookie-parser');
 
 router.post('/',upload.single('content'),function(req,res){
-    if(req.cookies.a == null || req.cookies.a.user == null){
+    if(req.cookies==null || req.cookies.a == null || req.cookies.a.user == null){
         res.status(400).json({
             'status':'error',
             'error':'User not login'
