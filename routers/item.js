@@ -11,29 +11,31 @@ router.get('/:id',(req,res)=>{
 });
 
 router.delete('/:id',(req,res)=>{
-    if(req.cookies.a == null || req.cookies.a.user == null){
-        res.status(400).json({
-            'status': 'error',
-            'error': 'User not login'
-        })
-    }
-    else{
-        req.session.user = req.body.current_user
-        deleteItem(req.params.id,req.app.locals.db,req,res);
-    }
+    // if(req.body.current_user == null || req.cookies.a.user == null){
+    //     res.status(400).json({
+    //         'status': 'error',
+    //         'error': 'User not login'
+    //     })
+    // }
+    // else{
+    req.session.user = req.body.current_user
+    //     deleteItem(req.params.id,req.app.locals.db,req,res);
+    // }
+    deleteItem(req.params.id,req.app.locals.db,req,res);
 });
 
 router.post('/:id/like',(req,res)=>{
-    if(req.cookies.a == null || req.cookies.a.user == null){
-        res.status(400).json({
-            'status': 'error',
-            'error': 'User not login'
-        })
-    }
-    else{
-        req.session.user = req.body.current_user
-        likeItem(req.params.id,req,res)
-    }
+    // if(req.cookies.a == null || req.cookies.a.user == null){
+    //     res.status(400).json({
+    //         'status': 'error',
+    //         'error': 'User not login'
+    //     })
+    // }
+    // else{
+    req.session.user = req.body.current_user
+    //     likeItem(req.params.id,req,res)
+    // }
+    likeItem(req.params.id,req,res)
 });
 
 function likeItem(id,req,res){
