@@ -10,22 +10,21 @@ var upload = multer({dest:'upload/',storage:storage})
 var uniqid = require("uniqid");
 
 router.post('/',upload.single('content'),function(req,res){
-    req.session.user = req.body.current_user
-    // if(req.session.user == null){
-    //     res.status(400).json({
-    //         'status':'error',
-    //         'error':'User not login'
-    //     })
-    // }
-    // else if(req.file == null){
-    //     res.status(401).json({
-    //         'status':'error',
-    //         'error':'No file uploaded'
-    //     })
-    // }
-    // else{
+    if(req.cookies.a == null || req.cookies.a.user == null){
+        res.status(400).json({
+            'status':'error',
+            'error':'User not login'
+        })
+    }
+    else if(req.file == null){
+        res.status(401).json({
+            'status':'error',
+            'error':'No file uploaded'
+        })
+    }
+    else{
         req.body.id = uniqid()
-        req.app.locals.db.collection("medias").insertOne({'id':req.body.id, 'user':req.session.user,'used':false}, function(err, result) {
+        req.app.locals.db.collection("medias").insertOne({'id':req.body.id, 'user':req.cookies.a.user,'used':false}, function(err, result) {
             if (err) {
                 console.log(err);
             }
@@ -48,7 +47,7 @@ router.post('/',upload.single('content'),function(req,res){
                 res.status(200).json({'status':'OK', 'id':req.body.id});
             }
         });
-    //}
+    }
 })
 
 module.exports = router;
