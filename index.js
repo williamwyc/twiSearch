@@ -93,7 +93,7 @@ if(cluster.isMaster){
     cluster.fork();
   }
 }else{
-  MongoClient.connect('mongodb://3.133.96.47:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
+  MongoClient.connect('mongodb://18.221.90.197:27017',{ useUnifiedTopology: true, useNewUrlParser: true },function(err,client){
     if (err){
       throw err;
     }
