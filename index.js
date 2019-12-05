@@ -6,7 +6,7 @@ var urlencodedParser = bodyParser.urlencoded({extended: false})
 var path = require('path');
 var MongoClient = require('mongodb').MongoClient;
 var cassandra = require('cassandra-driver');
-var client = new cassandra.Client({contactPoints: ['130.245.170.170'], localDataCenter:'datacenter1', keyspace: 'twi'})
+//var client = new cassandra.Client({contactPoints: ['130.245.170.170'], localDataCenter:'datacenter1', keyspace: 'twi'})
 var cookieSession = require('cookie-session');
 var Memcached = require('memcached');
 var memcached = new Memcached('localhost:11211')
@@ -16,23 +16,23 @@ var cluster = require('cluster');
 app.use(cookieParser());
 app.locals.mem = memcached;
 
-client.connect(function(err, result) {
-  if(err)
-          console.log('Connection to cassandra error: '+err);
-  else{
-          console.log('Connection with cassandra established');
-          app.locals.client = client;
-          var tableQuery = "CREATE TABLE IF NOT EXISTS MEDIAS (id text PRIMARY KEY, content blob,type text);";
-          client.execute(tableQuery,[],function(err) {
-              if (!err) {
-                  console.log("new table created");
-              }
-              else{
-                  console.log("error in table creation: "+ err);
-              }
-          });
-  }
-});
+// client.connect(function(err, result) {
+//   if(err)
+//           console.log('Connection to cassandra error: '+err);
+//   else{
+//           console.log('Connection with cassandra established');
+//           app.locals.client = client;
+//           var tableQuery = "CREATE TABLE IF NOT EXISTS MEDIAS (id text PRIMARY KEY, content blob,type text);";
+//           client.execute(tableQuery,[],function(err) {
+//               if (!err) {
+//                   console.log("new table created");
+//               }
+//               else{
+//                   console.log("error in table creation: "+ err);
+//               }
+//           });
+//   }
+// });
 
 app.use(express.static(__dirname));
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
